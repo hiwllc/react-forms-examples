@@ -10,20 +10,36 @@ function App() {
 
   const handleSubmit = event => {
     event.preventDefault()
-    const { username, email, password, remember } = event.target
-
     /**
-     * No lugar de setar o estado aqui poderia facilmente ser uma chamada para uma API.
+     * agora nao precisamos mais usar o target para pegar os dados.
      */
-    setData({
-      username: username.value,
-      email: email.value,
-      password: password.value,
-      remember: remember.checked,
-    })
+    console.log(`
+      send data to API: ${JSON.stringify(data, null, 2)}
+    `)
   }
 
   const isDataEmpty = Object.keys(data).length <= 0
+
+  /**
+   * Para lidar com mudanca de dados de forma individual podemos fazer dessa forma:
+   */
+  const handleChange = ({ target }) =>
+    setData({
+      ...data,
+      [target.name]: target.value,
+    })
+
+  /**
+   * Lembre-se que o checkbox tem um valor boolean
+   */
+  const toggleCheckBox = ({ target }) =>
+    setData({
+      ...data,
+      /**
+       * usamos target.name porque bem, queremos reutilizar isso
+       */
+      [target.name]: target.checked,
+    })
 
   return (
     <div className="container">
@@ -40,6 +56,7 @@ function App() {
               className="field-input"
               type="text"
               name="username"
+              onChange={handleChange}
             />
           </div>
 
@@ -52,6 +69,7 @@ function App() {
               className="field-input"
               type="email"
               name="email"
+              onChange={handleChange}
             />
           </div>
 
@@ -64,12 +82,18 @@ function App() {
               className="field-input"
               type="password"
               name="password"
+              onChange={handleChange}
             />
           </div>
 
           <div className="field">
             <label className="field-label check">
-              <input className="field-input" type="checkbox" name="remember" />
+              <input
+                className="field-input"
+                type="checkbox"
+                name="remember"
+                onChange={toggleCheckBox}
+              />
               <span>Remember-me</span>
             </label>
           </div>
