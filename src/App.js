@@ -14,7 +14,7 @@ const lt = (message, size) => data => data.length <= size && message
 /**
  * vamos validar todos os campos entao
  */
-const validations = (validations, data) => {
+const validate = (validations, data) => {
   let errors = {}
 
   Object.keys(validations).map(name => {
@@ -45,6 +45,15 @@ const validations = (validations, data) => {
   return errors
 }
 
+const validations = {
+  username: required('O username precisa ser válido.'),
+  email: [required('Informe seu e-mail.'), email('O e-mail é invalido')],
+  password: [
+    required('A senha precisa ser válida.'),
+    lt('A senha precisa ter mais que 3 caracteres', 3),
+  ],
+}
+
 function App() {
   /**
    * Apenas para visualizar os dados.
@@ -61,26 +70,24 @@ function App() {
   const handleSubmit = event => {
     event.preventDefault()
 
-    /**
-     * Queremos validar todos os campos entao para cada um passamos uma fn de validacao.
-     */
-    const invalids = validations(
-      {
-        username: required('O username precisa ser válido.'),
-        email: [required('Informe seu e-mail.'), email('O e-mail é invalido')],
-        password: [
-          required('A senha precisa ser válida.'),
-          lt('A senha precisa ter mais que 3 caracteres', 3),
-        ],
-      },
-      data
-    )
-
-    setErrors(invalids)
-
     console.log(`
       send data to API: ${JSON.stringify(data, null, 2)}
     `)
+  }
+
+  /**
+   * Aqui nos validamos os dados no momento do blur,
+   * talvez alterar para ref faria mais sentido.
+   */
+  const handleBlur = ({ target }) => {
+    const { name, value } = target
+
+    const result = validate({ [name]: validations[name] }, { [name]: value })
+
+    setErrors({
+      ...errors,
+      [name]: result[name],
+    })
   }
 
   const isDataEmpty = Object.keys(data).length <= 0
@@ -124,6 +131,7 @@ function App() {
               name="username"
               value={data.username}
               onChange={handleChange}
+              onBlur={handleBlur}
             />
             {errors?.username && (
               <small className="field-message">{errors.username}</small>
@@ -141,6 +149,7 @@ function App() {
               name="email"
               value={data.email}
               onChange={handleChange}
+              onBlur={handleBlur}
             />
             {errors?.email && (
               <small className="field-message">{errors.email}</small>
@@ -158,6 +167,7 @@ function App() {
               name="password"
               value={data.password}
               onChange={handleChange}
+              onBlur={handleBlur}
             />
             {errors?.password && (
               <small className="field-message">{errors.password}</small>

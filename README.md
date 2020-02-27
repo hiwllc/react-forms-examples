@@ -11,4 +11,4 @@
 5. [Mostrar erros proximos onde eles pertencem.](https://github.com/uselessdev/react-forms-examples/commit/7ff217bcb691bfcdfa9b7d3387e0e9a91ccd96e6)
 6. [Dados iniciais.](https://github.com/uselessdev/react-forms-examples/commit/15e36ea33586d0fa87474eede8cfa0d02c321836)
 7. [Mais de um tipo de validação.](https://github.com/uselessdev/react-forms-examples/commit/8c6c8aacfefe3a80a77521216b9be97e8924e899)
-8. Validando no `onBlur`.
+8. [Validando no `onBlur`.](https://github.com/uselessdev/react-forms-examples/commit/dbf697bcfca244deda00896bbd1fef849bf4819b)
