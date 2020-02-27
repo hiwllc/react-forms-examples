@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import isEmail from 'validator/lib/isEmail'
 
 import './style.css'
 
@@ -7,6 +8,8 @@ import './style.css'
  * adicionar uma mensagem de erro na nossa funcao.
  */
 const required = message => data => data.length <= 0 && message
+const email = message => data => !isEmail(data) && message
+const lt = (message, size) => data => data.length <= size && message
 
 /**
  * vamos validar todos os campos entao
@@ -15,15 +18,26 @@ const validations = (validations, data) => {
   let errors = {}
 
   Object.keys(validations).map(name => {
-    /**
-     * Se nao existir o nome em data entao ele deve falhar na validacao.
-     */
-    const result = validations[name](data[name] || '')
+    if (Array.isArray(validations[name])) {
+      // Pegamos apenas o primeiro erro.
+      const error = validations[name].map(fn => fn(data[name] || ''))
 
-    if (result) {
       errors = {
         ...errors,
-        [name]: result,
+        /** se a primeira condicao for valida entao precisamos remover */
+        [name]: error.filter(err => err).shift(),
+      }
+    } else {
+      /**
+       * Se nao existir o nome em data entao ele deve falhar na validacao.
+       */
+      const result = validations[name](data[name] || '')
+
+      if (result) {
+        errors = {
+          ...errors,
+          [name]: result,
+        }
       }
     }
   })
@@ -53,8 +67,11 @@ function App() {
     const invalids = validations(
       {
         username: required('O username precisa ser válido.'),
-        email: required('O email precisa ser válido.'),
-        password: required('A senha precisa ser válido.'),
+        email: [required('Informe seu e-mail.'), email('O e-mail é invalido')],
+        password: [
+          required('A senha precisa ser válida.'),
+          lt('A senha precisa ter mais que 3 caracteres', 3),
+        ],
       },
       data
     )
