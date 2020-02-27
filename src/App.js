@@ -2,32 +2,71 @@ import React, { useState } from 'react'
 
 import './style.css'
 
+const required = data => data.length <= 0
+
+/**
+ * vamos validar todos os campos entao
+ */
+const validations = (validations, data) => {
+  let errors = {}
+
+  Object.keys(validations).map(name => {
+    /**
+     * Se nao existir o nome em data entao ele deve falhar na validacao.
+     */
+    const result = validations[name](data[name] || '')
+
+    if (result) {
+      errors = {
+        ...errors,
+        [name]: result,
+      }
+    }
+  })
+
+  return errors
+}
+
 function App() {
   /**
    * Apenas para visualizar os dados.
    */
   const [data, setData] = useState({})
+  const [errors, setErrors] = useState({})
 
   const handleSubmit = event => {
     event.preventDefault()
+
     /**
-     * agora nao precisamos mais usar o target para pegar os dados.
+     * Queremos validar todos os campos entao para cada um passamos uma fn de validacao.
      */
+    const invalids = validations(
+      {
+        username: required,
+        email: required,
+        password: required,
+      },
+      data
+    )
+
+    setErrors(invalids)
+
     console.log(`
       send data to API: ${JSON.stringify(data, null, 2)}
     `)
   }
 
   const isDataEmpty = Object.keys(data).length <= 0
-
+  const isErrorEmpty = Object.keys(errors).length <= 0
   /**
    * Para lidar com mudanca de dados de forma individual podemos fazer dessa forma:
    */
-  const handleChange = ({ target }) =>
+  const handleChange = ({ target }) => {
     setData({
       ...data,
       [target.name]: target.value,
     })
+  }
 
   /**
    * Lembre-se que o checkbox tem um valor boolean
@@ -105,6 +144,7 @@ function App() {
       </div>
 
       {!isDataEmpty && <pre>{JSON.stringify(data, null, 2)}</pre>}
+      {!isErrorEmpty && <pre>{JSON.stringify(errors, null, 2)}</pre>}
     </div>
   )
 }
