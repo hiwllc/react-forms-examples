@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import './style.css'
 
 function App() {
+  /**
+   * Apenas para visualizar os dados.
+   */
+  const [data, setData] = useState(false)
+
   return (
     <div className="container">
       <div className="papper">
@@ -55,6 +60,8 @@ function App() {
           <button type="submit">Register</button>
         </form>
       </div>
+
+      {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
     </div>
   )
 }

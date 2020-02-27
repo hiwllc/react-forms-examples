@@ -22,6 +22,7 @@ body {
 
   display: flex;
   align-items: center;
+  flex-direction: column;
   justify-content: center;
 }
 
@@ -124,4 +125,20 @@ button:hover,
 button:focus {
   border-color: #b0aad8;
   background-color: #b0aad8;
+}
+
+pre {
+  width: 100%;
+  max-width: 600px;
+  padding: 16px;
+  margin-top: 16px;
+  background-color: #424242;
+
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: bold;
+  white-space: pre-wrap;
+
+  border-radius: 4px;
+  border: 1px solid #424242;
 }
