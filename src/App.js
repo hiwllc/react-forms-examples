@@ -8,12 +8,27 @@ function App() {
    */
   const [data, setData] = useState(false)
 
+  const handleSubmit = event => {
+    event.preventDefault()
+    const { username, email, password, remember } = event.target
+
+    /**
+     * No lugar de setar o estado aqui poderia facilmente ser uma chamada para uma API.
+     */
+    setData({
+      username: username.value,
+      email: email.value,
+      password: password.value,
+      remember: remember.checked,
+    })
+  }
+
   return (
     <div className="container">
       <div className="papper">
         <h1 className="papper-title">Sign In</h1>
 
-        <form method="post">
+        <form method="post" onSubmit={handleSubmit}>
           <div className="field">
             <label className="field-label" htmlFor="username">
               username:
