@@ -35,7 +35,13 @@ function App() {
   /**
    * Apenas para visualizar os dados.
    */
-  const [data, setData] = useState({})
+  const [data, setData] = useState({
+    username: 'uselessdev',
+    email: '',
+    password: '',
+    checked: true,
+  })
+
   const [errors, setErrors] = useState({})
 
   const handleSubmit = event => {
@@ -99,6 +105,7 @@ function App() {
               className="field-input"
               type="text"
               name="username"
+              value={data.username}
               onChange={handleChange}
             />
             {errors?.username && (
@@ -115,6 +122,7 @@ function App() {
               className="field-input"
               type="email"
               name="email"
+              value={data.email}
               onChange={handleChange}
             />
             {errors?.email && (
@@ -131,6 +139,7 @@ function App() {
               className="field-input"
               type="password"
               name="password"
+              value={data.password}
               onChange={handleChange}
             />
             {errors?.password && (
@@ -144,6 +153,7 @@ function App() {
                 className="field-input"
                 type="checkbox"
                 name="remember"
+                checked={data.checked}
                 onChange={toggleCheckBox}
               />
               <span>Remember-me</span>
