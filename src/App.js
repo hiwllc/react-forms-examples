@@ -2,7 +2,11 @@ import React, { useState } from 'react'
 
 import './style.css'
 
-const required = data => data.length <= 0
+/**
+ * Precisamos mostrar os erros para o usuario entao vamos
+ * adicionar uma mensagem de erro na nossa funcao.
+ */
+const required = message => data => data.length <= 0 && message
 
 /**
  * vamos validar todos os campos entao
@@ -42,9 +46,9 @@ function App() {
      */
     const invalids = validations(
       {
-        username: required,
-        email: required,
-        password: required,
+        username: required('O username precisa ser válido.'),
+        email: required('O email precisa ser válido.'),
+        password: required('A senha precisa ser válido.'),
       },
       data
     )
@@ -142,6 +146,15 @@ function App() {
           </button>
         </form>
       </div>
+
+      {/* vamos mostrar os erros para o usuário */}
+      {!isErrorEmpty && (
+        <div className="errors">
+          {Object.keys(errors).map(err => (
+            <span>- {errors[err]}</span>
+          ))}
+        </div>
+      )}
 
       {!isDataEmpty && <pre>{JSON.stringify(data, null, 2)}</pre>}
       {!isErrorEmpty && <pre>{JSON.stringify(errors, null, 2)}</pre>}
