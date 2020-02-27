@@ -8,5 +8,5 @@
 2. [Lidar com as mudancas de dados _individualmente_.](https://github.com/uselessdev/react-forms-examples/commit/e5d9b5c5ee7bb5e93312eecaa3a8cde34663ccb2)
 3. [Validacao de dados.](https://github.com/uselessdev/react-forms-examples/commit/7488c315542f10e9196df58e3b1be4d36986c0d0)
 4. [Mostrar erros aos usuarios.](https://github.com/uselessdev/react-forms-examples/commit/fc7b034fb662d731e184d1c21a9b4bc1b9f3c380)
-5. Mostrar erros proximos onde eles pertencem.
+5. [Mostrar erros proximos onde eles pertencem.](https://github.com/uselessdev/react-forms-examples/commit/7ff217bcb691bfcdfa9b7d3387e0e9a91ccd96e6)
 6. Dados iniciais.

@@ -101,6 +101,9 @@ function App() {
               name="username"
               onChange={handleChange}
             />
+            {errors?.username && (
+              <small className="field-message">{errors.username}</small>
+            )}
           </div>
 
           <div className="field">
@@ -114,6 +117,9 @@ function App() {
               name="email"
               onChange={handleChange}
             />
+            {errors?.email && (
+              <small className="field-message">{errors.email}</small>
+            )}
           </div>
 
           <div className="field">
@@ -127,6 +133,9 @@ function App() {
               name="password"
               onChange={handleChange}
             />
+            {errors?.password && (
+              <small className="field-message">{errors.password}</small>
+            )}
           </div>
 
           <div className="field">
@@ -146,15 +155,6 @@ function App() {
           </button>
         </form>
       </div>
-
-      {/* vamos mostrar os erros para o usuário */}
-      {!isErrorEmpty && (
-        <div className="errors">
-          {Object.keys(errors).map(err => (
-            <span>- {errors[err]}</span>
-          ))}
-        </div>
-      )}
 
       {!isDataEmpty && <pre>{JSON.stringify(data, null, 2)}</pre>}
       {!isErrorEmpty && <pre>{JSON.stringify(errors, null, 2)}</pre>}
