@@ -6,7 +6,7 @@ function App() {
   /**
    * Apenas para visualizar os dados.
    */
-  const [data, setData] = useState(false)
+  const [data, setData] = useState({})
 
   const handleSubmit = event => {
     event.preventDefault()
@@ -22,6 +22,8 @@ function App() {
       remember: remember.checked,
     })
   }
+
+  const isDataEmpty = Object.keys(data).length <= 0
 
   return (
     <div className="container">
@@ -72,11 +74,13 @@ function App() {
             </label>
           </div>
 
-          <button type="submit">Register</button>
+          <button type="submit" disabled={isDataEmpty}>
+            Register
+          </button>
         </form>
       </div>
 
-      {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
+      {!isDataEmpty && <pre>{JSON.stringify(data, null, 2)}</pre>}
     </div>
   )
 }

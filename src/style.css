@@ -127,6 +127,14 @@ button:focus {
   background-color: #b0aad8;
 }
 
+button:disabled {
+  cursor: initial;
+  border-color: #d9d4fa;
+  background-color: #d9d4fa;
+
+  user-select: none;
+}
+
 pre {
   width: 100%;
   max-width: 600px;
