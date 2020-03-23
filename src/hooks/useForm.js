@@ -1,35 +1,38 @@
 import { useState, useCallback } from 'react'
+import { view, keys, is, complement, lensPath, set } from 'ramda'
+
+const isArray = is(Array)
+const isNotArray = complement(is(Array))
 
 /**
  * vamos validar todos os campos entao
  */
-const validate = (validations, data) => {
-  let errors = {}
+const validate = (schema, data, errors = {}) => {
+  const lens = lensPath(keys(schema))
+  const validations = view(lens, schema)
+  const value = view(lens, data)
 
-  Object.keys(validations).map(name => {
-    if (Array.isArray(validations[name])) {
-      // Pegamos apenas o primeiro erro.
-      const error = validations[name].map(fn => fn(data[name] || ''))
+  if (!validations) {
+    return {}
+  }
 
-      errors = {
-        ...errors,
-        /** se a primeira condicao for valida entao precisamos remover */
-        [name]: error.filter(err => err).shift(),
-      }
-    } else {
-      /**
-       * Se nao existir o nome em data entao ele deve falhar na validacao.
-       */
-      const result = validations[name](data[name] || '')
+  if (isNotArray(validations)) {
+    const result = validations(value)
+
+    if (result) {
+      return set(lens, result, errors)
+    }
+  }
+
+  if (isArray(validations)) {
+    for (let validate of validations) {
+      const result = validate(value)
 
       if (result) {
-        errors = {
-          ...errors,
-          [name]: result,
-        }
+        return set(lens, result, errors)
       }
     }
-  })
+  }
 
   return errors
 }
